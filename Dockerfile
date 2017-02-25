@@ -9,7 +9,8 @@ RUN apk add --no-cache ca-certificates \
       | tar -xzC /usr/local/bin \
     && /usr/local/bin/entrykit --symlink \
     && mkdir -p /opt/hydra && cd /opt/hydra \
-    && curl -o hydra -L https://github.com/ory/hydra/releases/download/v${HYDRA_VER}/hydra-linux-amd64
+    && curl -o hydra -L https://github.com/ory/hydra/releases/download/v${HYDRA_VER}/hydra-linux-amd64 \
+    && chmod +x ./hydra
     # && addgroup hydra -S \
     # && adduser hydra -S -G hydra \
     # && chown root:hydra -R /opt/hydra \
