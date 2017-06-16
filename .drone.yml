@@ -19,3 +19,22 @@ pipeline:
     tag: [ "0.2", "0.2.3" ]
     when:
       event: tag
+
+  publish-consent:
+    image: plugins/docker
+    repo: node3030/hydra-go-consent
+    dockerfile: Dockerfile-go-consent
+    secrets: [ docker_username, docker_password ]
+    tag: [ latest ]
+    when:
+      branch: master
+      event: push
+      
+  release-consent:
+    image: plugins/docker
+    repo: node3030/hydra-go-consent
+    dockerfile: Dockerfile-go-consent
+    secrets: [ docker_username, docker_password ]
+    tag: [ "0.1", "0.1.1" ]
+    when:
+      event: tag
