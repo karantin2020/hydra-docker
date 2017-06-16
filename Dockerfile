@@ -15,6 +15,6 @@ RUN apk --no-cache add ca-certificates \
 WORKDIR /hydra
 COPY --from=builder /go/bin/hydra .
 
-ENTRYPOINT ["/hydra/hydra", "host", "--disable-telemetry"]
+ENTRYPOINT ["/hydra/hydra", "migrate", "sql", "$DATABASE_URL", "&&", "/hydra/hydra", "host", "--disable-telemetry"]
 
 EXPOSE 4444
