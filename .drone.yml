@@ -16,6 +16,6 @@ pipeline:
     image: plugins/docker
     repo: node3030/hydra
     secrets: [ docker_username, docker_password ]
-    tag: [ {$DRONE_TAG} ]
+    tag: [ "0.2", "0.2.1" ]
     when:
       event: tag
