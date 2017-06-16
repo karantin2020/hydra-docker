@@ -1,0 +1,21 @@
+workspace:
+  base: /go
+  path: src/github.com/karantin2020/hydra-docker
+
+pipeline:
+  publish:
+    image: plugins/docker
+    repo: node3030/hydra
+    secrets: [ docker_username, docker_password ]
+    tag: [ latest ]
+    when:
+      branch: master
+      event: push
+      
+  release:
+    image: plugins/docker
+    repo: node3030/hydra
+    secrets: [ docker_username, docker_password ]
+    tag: [ {$DRONE_TAG} ]
+    when:
+      event: tag
