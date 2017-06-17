@@ -4,6 +4,7 @@ workspace:
 
 pipeline:
   publish:
+    group: dopub
     image: plugins/docker
     repo: node3030/hydra
     secrets: [ docker_username, docker_password ]
@@ -13,6 +14,7 @@ pipeline:
       event: push
       
   release:
+    group: dopub
     image: plugins/docker
     repo: node3030/hydra
     secrets: [ docker_username, docker_password ]
@@ -21,6 +23,7 @@ pipeline:
       event: tag
 
   publish-consent:
+    group: dopub
     image: plugins/docker
     repo: node3030/hydra-go-consent
     dockerfile: Dockerfile-go-consent
@@ -31,6 +34,7 @@ pipeline:
       event: push
       
   release-consent:
+    group: dopub
     image: plugins/docker
     repo: node3030/hydra-go-consent
     dockerfile: Dockerfile-go-consent
