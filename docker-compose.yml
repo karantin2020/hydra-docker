@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+
+  hydra:
+    image: node3030/hydra
+    container_name: hydra
+    # links:
+    #   - pgd:pgd
+    volumes:
+      - ./volumes:/root
+    ports:
+      - "127.0.0.1:4444:4444"
+    environment:
+      # - LOG_LEVEL=${LOG_LEVEL}
+      - SYSTEM_SECRET=passwordtut
+      - CONSENT_URL=http://localhost:4445/consent
+      - DATABASE_URL=memory
+      - FORCE_ROOT_CLIENT_CREDENTIALS=demo:demo
+      - ISSUER=http://172.18.0.2:4444
+      # - ACCESS_TOKEN_LIFESPAN=${ACCESS_TOKEN_LIFESPAN}
+      # - ID_TOKEN_LIFESPAN=${ID_TOKEN_LIFESPAN}
+      # - AUTH_CODE_LIFESPAN=${AUTH_CODE_LIFESPAN}
+    restart: always
+    command: ["--dangerous-force-http"]
+    
+  consent:
+    image: node3030/hydra-go-consent
+    container_name: consent
+    environment:
+      - HYDRA_CLUSTER_URL=http://172.18.0.2:4444
+      # - HYDRA_CLIENT_HOST=127.0.0.1
+      - HYDRA_CLIENT_ID=demo
+      - HYDRA_CLIENT_SECRET=demo
+      # - NODE_TLS_REJECT_UNAUTHORIZED=0
+    links:
+      - hydra:hydra
+    ports:
+      - "127.0.0.1:4445:4445"
+    restart: always
+    depends_on:
+      - hydra
+    
+#   pgd:
+#     image: postgres:9.6-alpine
+#     container_name: pgd
+#     # ports:
+#     #   - "localhost:5432:5432"
+#     volumes:
+#       - ./volumes/db/var/lib/postgresql:/var/lib/postgresql:rw
+#       - /etc/localtime:/etc/localtime:ro
+#     environment:
+#       - POSTGRES_USER=hydra
+#       - POSTGRES_PASSWORD=secret
+#       - POSTGRES_DB=hydra
+#     restart: always
+#     networks:
+#       front:
+#         ipv4_address: 172.16.238.4
