@@ -2,11 +2,11 @@ FROM golang:1.8.3-alpine3.6 as builder
 
 RUN apk add --no-cache git build-base
 RUN mkdir -p $GOPATH/src/github.com/ory \
-	&& git clone --depth=1 https://github.com/ory/hydra-consent-app-go $GOPATH/src/github.com/ory/hydra-consent-app-go \
+	&& git clone --depth=1 https://github.com/karantin2020/hydra-consent-app-go $GOPATH/src/github.com/karantin2020/hydra-consent-app-go \
 	&& go get github.com/Masterminds/glide \
-	&& cd $GOPATH/src/github.com/ory/hydra-consent-app-go \
+	&& cd $GOPATH/src/github.com/karantin2020/hydra-consent-app-go \
 	&& glide install --skip-test \
-	&& go install github.com/ory/hydra-consent-app-go
+	&& go install github.com/karantin2020/hydra-consent-app-go
 
 
 FROM alpine:3.6
@@ -14,7 +14,7 @@ RUN apk --no-cache add ca-certificates \
 	&& mkdir -p /hydra
 WORKDIR /hydra
 COPY --from=builder /go/bin/hydra-consent-app-go .
-COPY --from=builder /go/src/github.com/ory/hydra-consent-app-go/templates/ ./templates/
+COPY --from=builder /go/src/github.com/karantin2020/hydra-consent-app-go/templates/ ./templates/
 
 ENTRYPOINT ["/hydra/hydra-consent-app-go"]
 
